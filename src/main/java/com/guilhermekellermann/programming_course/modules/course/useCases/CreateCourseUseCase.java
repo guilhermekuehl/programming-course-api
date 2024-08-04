@@ -14,7 +14,7 @@ public class CreateCourseUseCase {
     private CourseRepository courseRepository;
 
     public CourseEntity execute(CourseEntity courseEntity) {
-        this.courseRepository.findById(courseEntity.getId()).ifPresent((course) -> {
+        this.courseRepository.findByName(courseEntity.getName()).ifPresent((course) -> {
             throw new CourseFoundException();
         });
 

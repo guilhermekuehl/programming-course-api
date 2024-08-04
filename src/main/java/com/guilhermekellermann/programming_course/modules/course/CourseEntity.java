@@ -19,7 +19,7 @@ public class CourseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
+    
     private String name;
     private Category category;
     private boolean active;
