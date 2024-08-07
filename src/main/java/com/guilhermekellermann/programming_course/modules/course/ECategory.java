@@ -1,6 +1,6 @@
 package com.guilhermekellermann.programming_course.modules.course;
 
-public enum Category {
+public enum ECategory {
     BACK_END("Back-end"),
     FRONT_END("Front-end"),
     FULLSTACK("Fullstack"),
@@ -8,7 +8,7 @@ public enum Category {
 
     private final String descricao;
 
-    Category(String descricao) {
+    ECategory(String descricao) {
         this.descricao = descricao;
     }
 

@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
@@ -20,8 +21,11 @@ public class CourseEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     
+    @NotBlank
     private String name;
-    private Category category;
+
+    @NotBlank
+    private ECategory category;
     private boolean active;
 
     @CreationTimestamp
