@@ -24,7 +24,6 @@ public class CourseEntity {
     @NotBlank
     private String name;
 
-    @NotBlank
     private ECategory category;
     private boolean active;
 
