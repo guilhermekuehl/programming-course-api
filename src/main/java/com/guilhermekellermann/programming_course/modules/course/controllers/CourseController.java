@@ -2,7 +2,6 @@ package com.guilhermekellermann.programming_course.modules.course.controllers;
 
 import java.util.UUID;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,13 +66,10 @@ public class CourseController {
         }
     }
 
-    @PutMapping("/cursos/{id}")
-    public ResponseEntity<Object> put(@PathVariable UUID id, @Valid @RequestBody CourseEntity courseEntity, HttpServletRequest request) {
-        request.removeAttribute("active");
-        var name = request.getAttribute("name");
-        var category = request.getAttribute("category");
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> put(@PathVariable String id, @Valid @RequestBody CourseEntity oldCourse) {
         try {
-            var updatedCourse = this.updateCourseUseCase.execute(id, courseEntity);
+            var updatedCourse = this.updateCourseUseCase.execute(UUID.fromString(id), oldCourse);
             return ResponseEntity.ok().body(updatedCourse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

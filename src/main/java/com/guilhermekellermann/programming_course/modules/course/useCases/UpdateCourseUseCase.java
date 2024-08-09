@@ -15,11 +15,22 @@ public class UpdateCourseUseCase {
     @Autowired
     public CourseRepository courseRepository;
     
-    public CourseEntity execute(UUID courseId, CourseEntity courseEntity) {
-        if (!this.courseRepository.existsById(courseId)) {
+    public CourseEntity execute(UUID courseId, CourseEntity oldCourse) {
+        var course = this.courseRepository.findById(courseId).orElseThrow(() -> {
             throw new CourseNotFoundException();
+        });
+
+        var category = oldCourse.getCategory();
+        var name = oldCourse.getName();
+
+        if (category != null) {
+            course.setCategory(category);
         }
 
-        return this.courseRepository.save(courseEntity);
+        if (name != null) {
+            course.setName(name);
+        }
+
+        return this.courseRepository.save(course);
     }
 }
