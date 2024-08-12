@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 import com.guilhermekellermann.programming_course.modules.course.ECategory;
@@ -67,12 +66,17 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> put(@PathVariable String id, @Valid @RequestBody CourseEntity oldCourse) {
+    public ResponseEntity<Object> put(@PathVariable UUID id, @Valid @RequestBody CourseEntity oldCourse) {
         try {
-            var updatedCourse = this.updateCourseUseCase.execute(UUID.fromString(id), oldCourse);
+            var updatedCourse = this.updateCourseUseCase.execute(id, oldCourse);
             return ResponseEntity.ok().body(updatedCourse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    // @PatchMapping("{id}/active")
+    // public ResponseEntity<Object> patch(@PathVariable UUID id) {
+
+    // }
 }
