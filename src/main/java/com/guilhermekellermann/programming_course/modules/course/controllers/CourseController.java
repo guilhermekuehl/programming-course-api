@@ -22,6 +22,7 @@ import com.guilhermekellermann.programming_course.modules.course.CourseEntity;
 import com.guilhermekellermann.programming_course.modules.course.useCases.CreateCourseUseCase;
 import com.guilhermekellermann.programming_course.modules.course.useCases.DeleteCourseUseCase;
 import com.guilhermekellermann.programming_course.modules.course.useCases.GetCourseUseCase;
+import com.guilhermekellermann.programming_course.modules.course.useCases.ToggleActiveCourseUseCase;
 import com.guilhermekellermann.programming_course.modules.course.useCases.UpdateCourseUseCase;
 
 @RestController
@@ -39,6 +40,9 @@ public class CourseController {
 
     @Autowired
     private DeleteCourseUseCase deleteCourseUseCase;
+
+    @Autowired
+    private ToggleActiveCourseUseCase toggleActiveCourseUseCase;
 
     @PostMapping("/")
     public ResponseEntity<Object> create(@Valid @RequestBody CourseEntity courseEntity) {
@@ -86,6 +90,16 @@ public class CourseController {
         try {
             this.deleteCourseUseCase.execute(id);
             return ResponseEntity.ok().body("Course successfully deleted.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PatchMapping("/{id}/active")
+    public ResponseEntity<Object> patch(@PathVariable UUID id){
+        try {
+            var courseActiveUpdated = this.toggleActiveCourseUseCase.execute(id);
+            return ResponseEntity.ok().body(courseActiveUpdated);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
