@@ -4,7 +4,9 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +20,7 @@ import jakarta.validation.Valid;
 import com.guilhermekellermann.programming_course.modules.course.ECategory;
 import com.guilhermekellermann.programming_course.modules.course.CourseEntity;
 import com.guilhermekellermann.programming_course.modules.course.useCases.CreateCourseUseCase;
+import com.guilhermekellermann.programming_course.modules.course.useCases.DeleteCourseUseCase;
 import com.guilhermekellermann.programming_course.modules.course.useCases.GetCourseUseCase;
 import com.guilhermekellermann.programming_course.modules.course.useCases.UpdateCourseUseCase;
 
@@ -33,6 +36,9 @@ public class CourseController {
 
     @Autowired
     private UpdateCourseUseCase updateCourseUseCase;
+
+    @Autowired
+    private DeleteCourseUseCase deleteCourseUseCase;
 
     @PostMapping("/")
     public ResponseEntity<Object> create(@Valid @RequestBody CourseEntity courseEntity) {
@@ -75,8 +81,13 @@ public class CourseController {
         }
     }
 
-    // @PatchMapping("{id}/active")
-    // public ResponseEntity<Object> patch(@PathVariable UUID id) {
-
-    // }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable UUID id) {
+        try {
+            this.deleteCourseUseCase.execute(id);
+            return ResponseEntity.ok().body("Course successfully deleted.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
